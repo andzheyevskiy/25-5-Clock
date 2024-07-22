@@ -13,7 +13,7 @@ function Cronometro(props) {
 
     return (
         <div id={`${props.tipo}-label`} className='cronometro'>
-            <h2>{`${props.tipo} Session`}</h2>
+            <h2>{`${props.tipo} Length`}</h2>
             <div className='time-wrapper'>
                 <button id={`${props.tipo}-increment`} onClick={increment}>▲</button>
                 <div id={`${props.tipo}-increment`}> {props.currentMinutes} </div>
