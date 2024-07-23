@@ -9,7 +9,7 @@ function Cronometro(props) {
     }
     function decrement(){
         props.reset()
-        if(props.currentMinutes > 0) props.changeMinutes(e => e - 1)
+        if(props.currentMinutes > 1) props.changeMinutes(e => e - 1)
     }
 
 
