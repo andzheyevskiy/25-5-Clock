@@ -1,0 +1,29 @@
+#timer-label{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+.time-wrapper{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+
+
+    border: double black 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background: radial-gradient(rgb(212, 212, 212),rgb(88, 88, 88));
+
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+
+
+    & button{
+        width: 33%;
+        height: 30px;
+        font-size: 20px;
+        background: linear-gradient(red,yellow);
+    }
+}
