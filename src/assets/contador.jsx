@@ -25,6 +25,7 @@ function Contador(props) {
 
     function countdown() {
         if (currentNumber == 0 && props.seconds == 0) {
+            playAudio()
             toggleBreak()
         }
         else if (props.seconds == 0) {
@@ -46,6 +47,13 @@ function Contador(props) {
 
     function pause() {
         props.setIsStarted(false)
+    }
+
+    function playAudio() {
+        const audio = document.querySelector("#beep")
+        audio.play()
+        setTimeout(()=>audio.pause(),3000)
+        
     }
 
     useEffect(() => {
@@ -75,6 +83,7 @@ function Contador(props) {
                     {displaySeconds}
                 </div>
                 <div className='button-wrapper'>
+                    <audio id='beep' src="/assets/sounds/digital-alarm-clock-151920.mp3"></audio>
                     <button id='start_stop' onClick={pauseResume}><FontAwesomeIcon icon={faPlay} /></button>
                     <button id='pause' onClick={pause}> <FontAwesomeIcon icon={faPause} /> </button>
                     <button id='reset' onClick={props.reset}><FontAwesomeIcon icon={faRepeat} /></button>
