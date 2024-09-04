@@ -9,9 +9,11 @@ function Contador(props) {
 
     const [breakNumber, setBreakNumber] = useState(props.breakNumber)
     const [sessionNumber, setSessionNumber] = useState(props.sessionNumber)
-    const [currentNumber,setCurrentNumber] = useState()
+    const [currentNumber,setCurrentNumber] = useState(props.isBreak?breakNumber:sessionNumber)
 
+    const displayMinutes = String(currentNumber)[1] ? currentNumber : `0${currentNumber}`
     const displaySeconds = String(props.seconds)[1] ? props.seconds : `0${props.seconds}`
+
 
     function toggleBreak() {
         if (props.isBreak) {
@@ -25,20 +27,17 @@ function Contador(props) {
 
     function countdown() {
         if (currentNumber == 0 && props.seconds == 0) {
-            playAudio()
             toggleBreak()
         }
         else if (props.seconds == 0) {
-            if (props.isBreak) {
-                setBreakNumber(e => e - 1)
-            } else {
-                setSessionNumber(e => e - 1)
-            }
+            setCurrentNumber(e=>e-1)
             props.setSeconds(59)
         }
         else {
             props.setSeconds(e => e - 1)
         }
+
+        // Handle audio at 1 second
     }
 
     function pauseResume() {
@@ -50,10 +49,17 @@ function Contador(props) {
     }
 
     function playAudio() {
-        const audio = document.querySelector("#beep")
+        const audio = document.getElementById("beep")
         audio.play()
-        setTimeout(()=>audio.pause(),3000)
-        
+        setTimeout(() => {
+            resetAudio()
+          }, 1000);
+    }
+
+    function resetAudio(){
+        const audio = document.getElementById("beep")
+        audio.pause()
+        audio.currentTime = 0
     }
 
     useEffect(() => {
@@ -71,19 +77,25 @@ function Contador(props) {
 
     useEffect(()=>{
         setCurrentNumber(props.isBreak?breakNumber:sessionNumber)
-    },[props.isBreak,breakNumber,sessionNumber])
+    }, [props.rerender,sessionNumber,breakNumber,props.isBreak])
+
+    useEffect(()=>{
+        if (currentNumber == 0 && props.seconds == 0){
+            playAudio()
+        }
+    }, [currentNumber, props.seconds])
 
     return (
         <>
             <h2 id='timer-label'>{props.isBreak ? "Break" : "Session"}</h2>
             <section className='time-wrapper'>
                 <div id='time-left'>
-                    {props.isBreak ? breakNumber : sessionNumber}
+                    {displayMinutes}
                     :
                     {displaySeconds}
                 </div>
                 <div className='button-wrapper'>
-                    <audio id='beep' src="/assets/sounds/digital-alarm-clock-151920.mp3"></audio>
+                    <audio id='beep' src="./assets/sounds/digital-alarm-clock-151920.mp3"></audio>
                     <button id='start_stop' onClick={pauseResume}><FontAwesomeIcon icon={faPlay} /></button>
                     <button id='pause' onClick={pause}> <FontAwesomeIcon icon={faPause} /> </button>
                     <button id='reset' onClick={props.reset}><FontAwesomeIcon icon={faRepeat} /></button>
