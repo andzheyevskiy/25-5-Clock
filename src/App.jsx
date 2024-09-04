@@ -10,6 +10,7 @@ function App() {
   const [seconds, setSeconds] = useState(0)
   const [isBreak, setIsBreak] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
+  const [rerender, setRerender] = useState(false)
 
   function reset() {
     setBreakNumber(5)
@@ -17,6 +18,9 @@ function App() {
     setSeconds(0)
     setIsBreak(false)
     setIsStarted(false)
+    setRerender(e=>!e)
+    document.getElementById('beep').pause()
+    document.getElementById('beep').currentTime=0
   }
 
   function secondsReset(){
@@ -53,6 +57,7 @@ function App() {
         setIsStarted={setIsStarted}
         seconds={seconds}
         setSeconds={setSeconds}
+        rerender={rerender}
       />
     </>
   )
